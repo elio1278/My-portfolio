@@ -1,6 +1,9 @@
+"use client"  // Add this at the top since we're using client-side features
+
 import Link from "next/link"
 import Image from "next/image"
 import { Github, Linkedin, Mail } from "lucide-react"
+import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 import ContactForm from "@/components/contact-form"
@@ -10,6 +13,7 @@ import AnimatedSkillBadge from "@/components/animated-skill-badge"
 import AnimatedProjectCard from "@/components/animated-project-card"
 import Navbar from "@/components/navbar"
 import ScrollToTop from "@/components/scroll-to-top"
+import ParticlesBackground from "@/components/particles-background"
 
 export default function Home() {
   const skills = [
@@ -26,6 +30,10 @@ export default function Home() {
       icon: "/icons/react.svg"
     },
     {
+      name: "Firebase",
+      icon: "/icons/firebase.svg"
+    },
+    {
       name: "Next.js",
       icon: "/icons/nextdotjs.svg"
     },
@@ -40,6 +48,18 @@ export default function Home() {
     {
       name: "Kali Linux",
       icon: "/icons/kalilinux.svg"
+    },
+    {
+      name: "Python",
+      icon: "/icons/python.svg"
+    },
+    {
+      name: "C++",
+      icon: "/icons/cplusplus.svg"
+    },
+    {
+      name: "C",
+      icon: "/icons/c.svg"
     },
     {
       name: "Tailwind CSS",
@@ -80,12 +100,30 @@ export default function Home() {
     },
   ]
 
+  const scrollToAbout = () => {
+    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const arrowVariants = {
+    initial: { y: -10, opacity: 0 },
+    animate: {
+      y: [0, 10, 0],
+      opacity: 1,
+      transition: {
+        duration: 1.5,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  }
+
   return (
     <main className="min-h-screen">
       <Navbar />
       <section className="relative bg-gradient-to-b from-background to-muted pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="container px-4 md:px-6 relative">
+        <ParticlesBackground />
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" style={{ zIndex: 1 }}></div>
+        <div className="container px-4 md:px-6 relative" style={{ zIndex: 2 }}>
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-primary mb-4 shadow-lg">
               <Image
@@ -96,13 +134,16 @@ export default function Home() {
                 priority
               />
             </div>
-            <AnimatedText text="Hi, I'm    Shashwath    Prabhu  (elio)" className="text-4xl md:text-6xl font-bold tracking-normal" />
+            <AnimatedText 
+              text="Hi, I'm    Shashwath    Prabhu  (elio)" 
+              className="text-4xl md:text-6xl font-bold tracking-normal text-foreground" 
+            />
             <AnimatedText
               text="On a journey through Cybersecurity and Development"
-              className="text-xl md:text-2xl text-muted-foreground"
+              className="text-xl md:text-2xl text-gray-600 dark:text-muted-foreground"
             />
             <div className="flex gap-4 mt-6">
-              <Button asChild className="animate-pulse">
+              <Button asChild>
                 <Link href="#contact">Get in touch</Link>
               </Button>
               <Button variant="outline" asChild>
@@ -128,15 +169,36 @@ export default function Home() {
                   <span className="sr-only">Email</span>
                 </Button>
               </Link>
+              
             </div>
+            <motion.button
+              onClick={scrollToAbout}
+              className="mt-16 mb-4 cursor-pointer text-foreground dark:text-white hover:text-primary dark:hover:text-primary transition-colors"
+              variants={arrowVariants}
+              initial="initial"
+              animate="animate"
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </motion.button>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-16 md:py-24 bg-background relative overflow-hidden">
+      <section id="about" className="py-24 md:py-32 bg-background relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-30"></div>
         <div className="container px-4 md:px-6">
-          <SectionHeading>About Me</SectionHeading>
+          <SectionHeading >About Me</SectionHeading>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] mx-auto group">
               {/* Gradient border animation */}
@@ -154,18 +216,18 @@ export default function Home() {
             </div>
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold text-primary">My Journey</h3>
-              <p className="text-muted-foreground">
+              <p className="text-gray-700 dark:text-muted-foreground">
                 Hi, I'm Shashwath, a passionate ISE student with interests in cybersecurity, web development, and ethical hacking. 
                 I'm also a FIDE-rated chess player and a tech enthusiast.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-gray-700 dark:text-muted-foreground">
                 I'm currently honing my skills in Next.js, DSA and Kali Linux, aiming to build a career in cybersecurity. 
                 I am quite interested in Development and love to make new websites and explore about more libraries and frameworks to work on.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-gray-700 dark:text-muted-foreground">
                 I like going to hackathons and CTF events throughout Bangalore. I also love cubing, playing guitar and keyboard as a hobby.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-gray-700 dark:text-muted-foreground">
                 I am currently working on a few projects on dev and cyber security, these projects are posted on my github account. 
                 If you are interested we can connect, innovate and create together!
               </p>
@@ -174,7 +236,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="skills" className="py-16 md:py-24 bg-muted relative overflow-hidden">
+      <section id="skills" className="py-24 md:py-32 bg-muted relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-30"></div>
         <div className="container px-4 md:px-6">
           <SectionHeading>Skills & Technologies</SectionHeading>
@@ -197,7 +259,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projects" className="py-16 md:py-24 bg-background relative overflow-hidden">
+      <section id="projects" className="py-24 md:py-32 bg-background relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-30"></div>
         <div className="container px-4 md:px-6">
           <SectionHeading>Featured Projects</SectionHeading>
@@ -218,18 +280,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="py-16 md:py-24 bg-muted relative overflow-hidden">
+      <section id="contact" className="py-24 md:py-32 bg-muted relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-30"></div>
         <div className="container px-4 md:px-6">
           <SectionHeading>Get In Touch</SectionHeading>
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold text-primary">Contact Information</h3>
-              <p className="text-muted-foreground">
+              <p className="text-gray-700 dark:text-muted-foreground">
                 I'm currently open to project opportunities and collaborations. Feel free to reach out if you have a
                 project in mind or just want to connect!
               </p>
-              <div className="flex items-center gap-2 text-muted-foreground">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-muted-foreground">
                 <Mail className="h-5 w-5 text-primary" />
                 <span>drs.prabhu2018@gmail.com</span>
               </div>
@@ -256,7 +318,9 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <ContactForm />
+            <div>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>

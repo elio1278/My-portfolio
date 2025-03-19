@@ -19,9 +19,11 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
+  const [activeSection, setActiveSection] = useState<string>('home')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
     }
@@ -95,39 +97,49 @@ export default function Navbar() {
     }
   }
 
+  if (!mounted) return null
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
-      }`}
-    >
-      <div className="container px-4 md:px-6 py-4 flex items-center justify-between">
+    <header className="fixed top-0 w-full bg-transparent z-50">
+      <nav className="container flex items-center justify-between p-4">
         <Link href="/" className="text-2xl font-bold text-primary">
           elio<span className="text-foreground">.dev</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <ul className="hidden md:flex items-center gap-6 text-muted-foreground">
           {NAV_ITEMS.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "nav-link text-sm font-medium transition-colors hover:text-primary",
-                activeSection === (href === '/' ? 'home' : href.replace("#", "")) 
-                  ? "active text-primary" 
-                  : "text-muted-foreground"
-              )}
-              onClick={(e) => handleNavClick(e, href)}
-            >
-              {label}
-            </Link>
+            <li key={href} className="relative">
+              <Link
+                href={href}
+                className={cn(
+                  "nav-link text-sm font-medium transition-colors hover:text-primary",
+                  activeSection === (href === '/' ? 'home' : href.replace("#", "")) 
+                    ? "active text-primary" 
+                    : "text-muted-foreground"
+                )}
+                onClick={(e) => handleNavClick(e, href)}
+              >
+                {label}
+                {activeSection === (href === '/' ? 'home' : href.replace("#", "")) && (
+                  <motion.div
+                    layoutId="navbar-underline"
+                    className="absolute left-0 top-full h-0.5 w-full bg-primary"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                )}
+              </Link>
+            </li>
           ))}
           <ThemeToggle />
           <Button asChild>
             <Link href="#contact">Contact Me</Link>
           </Button>
-        </nav>
+        </ul>
 
         {/* Mobile Navigation Toggle */}
         <div className="flex items-center gap-4 md:hidden">
@@ -136,7 +148,7 @@ export default function Navbar() {
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Navigation Menu */}
       <AnimatePresence>
@@ -146,7 +158,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-background border-t"
+            className="md:hidden bg-transparent"
           >
             <nav className="container px-4 py-6 flex flex-col gap-4">
               {NAV_ITEMS.map(({ label, href }, index) => (

@@ -1,14 +1,22 @@
 "use client"
 
-import { useCallback } from "react"
+import { useEffect, useState } from "react"
 import { loadSlim } from "tsparticles-slim"
 import type { Container, Engine } from "tsparticles-engine"
 import Particles from "react-tsparticles"
 
 export default function ParticlesBackground() {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
   }, [])
+
+  const particlesInit = async (engine: Engine) => {
+    await loadSlim(engine)
+  }
+
+  if (!isMounted) return null
 
   return (
     <div className="absolute inset-0" style={{ zIndex: 0 }}>

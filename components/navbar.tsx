@@ -100,7 +100,12 @@ export default function Navbar() {
   if (!mounted) return null
 
   return (
-    <header className="fixed top-0 w-full bg-transparent z-50">
+    <header 
+      className={cn(
+        "fixed top-0 w-full z-50 transition-colors duration-200",
+        scrolled ? "bg-background/80 backdrop-blur-sm" : "bg-transparent"
+      )}
+    >
       <nav className="container flex items-center justify-between p-4">
         <Link href="/" className="text-2xl font-bold text-primary">
           elio<span className="text-foreground">.dev</span>
@@ -158,7 +163,10 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-transparent"
+            className={cn(
+              "md:hidden",
+              scrolled ? "bg-background/80 backdrop-blur-sm" : "bg-background"
+            )}
           >
             <nav className="container px-4 py-6 flex flex-col gap-4">
               {NAV_ITEMS.map(({ label, href }, index) => (

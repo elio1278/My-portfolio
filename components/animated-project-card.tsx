@@ -29,7 +29,7 @@ export default function AnimatedProjectCard({
 }: AnimatedProjectCardProps) {
   return (
     <motion.div 
-      className="group relative bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all"
+      className="group relative bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all border border-black dark:border-purple-500"
     >
       <div className="aspect-video relative">
         <Image

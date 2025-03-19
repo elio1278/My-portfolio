@@ -1,0 +1,24 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 200vh;
+  background-color: black;
+}
+
+/* Basic styles */
+#root {
+  min-height: 100vh;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.scroll-container {
+  position: relative;
+  scroll-snap-type: y mandatory;
+}

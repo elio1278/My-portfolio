@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Send } from "lucide-react"
 
@@ -31,22 +29,51 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Input id="name" name="name" placeholder="Your Name" required />
+          <Input
+            id="name"
+            name="name"
+            placeholder="Your Name"
+            required
+            className="w-full p-3 rounded-lg bg-background"
+            suppressHydrationWarning
+          />
         </div>
         <div className="space-y-2">
-          <Input id="email" name="email" type="email" placeholder="Your Email" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Your Email"
+            required
+            className="w-full p-3 rounded-lg bg-background"
+            suppressHydrationWarning
+          />
         </div>
       </div>
       <div className="space-y-2">
-        <Input id="subject" name="subject" placeholder="Subject" required />
+        <Input
+          id="subject"
+          name="subject"
+          placeholder="Subject"
+          required
+          className="w-full p-3 rounded-lg bg-background"
+          suppressHydrationWarning
+        />
       </div>
       <div className="space-y-2">
-        <Textarea id="message" name="message" placeholder="Your Message" rows={5} required />
+        <Textarea
+          id="message"
+          name="message"
+          placeholder="Your Message"
+          required
+          className="w-full p-3 rounded-lg bg-background"
+          suppressHydrationWarning
+        />
       </div>
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
+      <Button type="submit" className="w-full" disabled={isSubmitting} suppressHydrationWarning>
         {isSubmitting ? (
           <span className="flex items-center">
             <svg

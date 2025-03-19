@@ -3,11 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Github, ExternalLink } from "lucide-react"
-import { motion } from "framer-motion"
-
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion"
 
 interface AnimatedProjectCardProps {
   title: string
@@ -29,52 +28,57 @@ export default function AnimatedProjectCard({
   index,
 }: AnimatedProjectCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
+    <motion.div 
+      className="group relative bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all"
     >
-      <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col">
-        <div className="relative aspect-video overflow-hidden">
-          <Image
-            src={imageUrl || "/placeholder.svg"}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-500 hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-            <h3 className="text-xl font-semibold text-white">{title}</h3>
+      <div className="aspect-video relative">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex items-center justify-center h-full gap-4">
+            <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="border-2 border-white/70 hover:border-white bg-transparent text-white hover:bg-white/10"
+              >
+                <Github className="h-4 w-4 mr-2" />
+                GitHub
+              </Button>
+            </Link>
+            {liveUrl && (
+              <Link href={liveUrl} target="_blank" rel="noopener noreferrer">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="border-2 border-white/70 hover:border-white bg-transparent text-white hover:bg-white/10"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Live Demo
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
-        <CardContent className="p-6 flex-grow">
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-muted-foreground mb-4">{description}</p>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {technologies.map((tech) => (
-              <Badge key={tech} variant="secondary">
-                {tech}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
-        <CardFooter className="px-6 pb-6 pt-0 flex gap-2">
-          <Button variant="outline" size="sm" asChild>
-            <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4 mr-2" />
-              Code
-            </Link>
-          </Button>
-          {liveUrl && (
-            <Button size="sm" asChild>
-              <Link href={liveUrl} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Live Demo
-              </Link>
-            </Button>
-          )}
-        </CardFooter>
-      </Card>
+      </div>
+      <div className="p-6 space-y-4">
+        <h3 className="text-xl font-semibold text-foreground">{title}</h3>
+        <p className="text-muted-foreground">{description}</p>
+        <div className="flex flex-wrap gap-2">
+          {technologies.map((tech) => (
+            <span 
+              key={tech}
+              className="px-3 py-1 text-sm rounded-full bg-muted text-muted-foreground"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
     </motion.div>
   )
 }
